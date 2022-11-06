@@ -18,7 +18,7 @@ class LineFollowEvent {
 
     }
 
-    public function follow(FollowEvent $event, LINEBot $bot): void
+    public function execute(FollowEvent $event, LINEBot $bot): void
     {
         $lineId = $event->getUserId();
         $user = LineFriend::where('line_id', $lineId)->firstOrNew();

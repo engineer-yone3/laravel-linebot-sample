@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Line;
 
 use App\Http\Controllers\Controller;
 use App\Services\Event\LineFollowEvent;
+use App\Services\Event\LineUnfollowEvent;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use LINE\LINEBot;
@@ -18,7 +19,8 @@ use Throwable;
 class LineBotController extends Controller
 {
     public function __construct(
-        private LineFollowEvent $followEvent
+        private LineFollowEvent $followEvent,
+        private LineUnfollowEvent $unFollowEvent
     )
     {
     }
@@ -36,7 +38,7 @@ class LineBotController extends Controller
             foreach ($events as $event) {
     
                 if ($event instanceof FollowEvent) {
-                    $this->followEvent->follow($event, $bot);
+                    $this->followEvent->execute($event, $bot);
                 } elseif ($event instanceof TextMessage) {
     
                     
@@ -44,7 +46,7 @@ class LineBotController extends Controller
                 } elseif ($event instanceof PostbackEvent) {
     
                 } elseif ($event instanceof UnfollowEvent) {
-    
+                    $this->unFollowEvent->execute($event);
                 } else {
     
                 }

@@ -2,10 +2,9 @@
 
 namespace Tests\Feature\Api\Line;
 
+use App\Models\LineFriend;
 use Illuminate\Support\Facades\DB;
-use LINE\LINEBot;
 use LINE\LINEBot\Constant\HTTPHeader;
-use LINE\LINEBot\Event\FollowEvent;
 use LINE\LINEBot\SignatureValidator;
 use Mockery;
 use Symfony\Component\HttpFoundation\Response;
@@ -57,6 +56,24 @@ class LineBotControllerTest extends TestCase
         $this->assertDatabaseHas('line_friends', $expected);
     }
 
+    /**
+     * @test
+     * @dataProvider sendUnFollowEventData
+     */
+    public function 友達削除イベント処理後テーブルから削除される($data)
+    {
+        $lineId = $data['events'][0]['source']['userId'];
+        LineFriend::factory()->featureTestSetup(['line_id' => $lineId])->create();
+        $this->postJson(route('line.callback'), $data, [HTTPHeader::LINE_SIGNATURE => 'aaaaa']);
+
+        $this->assertDatabaseCount('line_friends', 0);
+
+        $expected = [
+            'line_id' => $lineId,
+        ];
+        $this->assertDatabaseMissing('line_friends', $expected);
+    }
+
     public function sendFollowEventData(): array
     {
         return [
@@ -67,6 +84,33 @@ class LineBotControllerTest extends TestCase
                         [
                             'replyToken' => 'nHuyWiB7yP5Zw52FIkcQobQuGDXCTA',
                             'type' => 'follow',
+                            'mode' => 'active',
+                            'timestamp' => 1462629479859,
+                            'source' => [
+                                'type' => 'user',
+                                'userId' => 'U4af4980629...'
+                            ],
+                            'webhookEventId' => '01FZ74A0TDDPYRVKNK77XKC3ZR',
+                            'deliveryContext' => [
+                                'isRedelivery' => false
+                            ]
+                        ]
+                    ],
+                ]
+            ]
+        ];
+    }
+
+    public function sendUnFollowEventData(): array
+    {
+        return [
+            [
+                [
+                    'destination' => 'xxxxxxxxxx',
+                    'events' => [
+                        [
+                            'replyToken' => 'nHuyWiB7yP5Zw52FIkcQobQuGDXCTA',
+                            'type' => 'unfollow',
                             'mode' => 'active',
                             'timestamp' => 1462629479859,
                             'source' => [
