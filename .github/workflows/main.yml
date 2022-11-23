@@ -23,7 +23,7 @@ jobs:
             git reset --hard origin
             chmod -R 775 projdir
             cd projdir
-            echo ${{ secrets.LARAVEL_ENV }} > .env
+            echo "${{ secrets.LARAVEL_ENV }}" > .env
             cd ../../docker-production
             docker compose -f ./docker-compose.yml up -d --build --force-recreate
             
