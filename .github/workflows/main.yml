@@ -16,12 +16,5 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            cd docker-production
-            docker container stop laravel9_linebot
-            cd ../linebot
-            git fetch origin main
-            git reset --hard origin
-            chmod -R 775 projdir
-            cd ../docker-production
-            docker compose -f ./docker-compose.yml up -d --build --force-recreate
+            whoami
             
