@@ -4,6 +4,7 @@ namespace App\Services\Event;
 
 use LINE\LINEBot;
 use LINE\LINEBot\Event\MessageEvent\TextMessage;
+use App\Services\Bot\LineApiServiceInterface;
 
 class LineTextEvent {
     public function __construct(
