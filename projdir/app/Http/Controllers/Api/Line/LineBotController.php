@@ -40,7 +40,7 @@ class LineBotController extends Controller
             $events = $bot->parseEventRequest($request->getContent(), $signature);
 
             foreach ($events as $event) {
-    
+
                 if ($event instanceof FollowEvent) {
                     $this->followEvent->execute($event, $bot);
                 } elseif ($event instanceof TextMessage) {
