@@ -4,10 +4,12 @@ namespace Tests\Feature\Api\Line;
 
 use App\Models\LineFriend;
 use Illuminate\Support\Facades\DB;
+use LINE\LINEBot;
 use LINE\LINEBot\Constant\HTTPHeader;
 use LINE\LINEBot\SignatureValidator;
 use Mockery;
 use Symfony\Component\HttpFoundation\Response;
+use LINE\LINEBot\Response as LineResponse;
 use Tests\TestCase;
 
 class LineBotControllerTest extends TestCase
@@ -28,6 +30,17 @@ class LineBotControllerTest extends TestCase
         $mock->shouldReceive('validateSignature')
             ->once()
             ->andReturn(true);
+        
+        $mockResponse = new LineResponse(200, '');
+        $replyTextMock = Mockery::mock(LINEBot::class);
+        $replyTextMock->shouldReceive('replyText')
+            ->once()
+            ->andReturn($mockResponse);
+        
+        $replyMessageMock = Mockery::mock(LINEBot::class);
+        $replyMessageMock->shouldReceive('replyMessage')
+            ->once()
+            ->andReturn($mockResponse);
     }
 
     /**
@@ -127,4 +140,5 @@ class LineBotControllerTest extends TestCase
             ]
         ];
     }
+
 }
