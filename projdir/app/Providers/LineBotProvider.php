@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Services\Bot\LineApiServiceInterface;
 use App\Services\Bot\LineApiServiceStub;
+use App\Services\Bot\LineApiServiceImpl;
 use Illuminate\Support\ServiceProvider;
 use LINE\LINEBot;
 use LINE\LINEBot\HTTPClient\CurlHTTPClient;
@@ -22,7 +23,11 @@ class LineBotProvider extends ServiceProvider
             return new LINEBot($httpClient, ['channelSecret' => config('const.line_secret')]);
         });
 
-        $this->app->bind(LineApiServiceInterface::class, LineApiServiceStub::class);
+        if (config('app.env') === 'production') {
+            $this->app->bind(LineApiServiceInterface::class, LineApiServiceImpl::class);
+        } else {
+            $this->app->bind(LineApiServiceInterface::class, LineApiServiceStub::class);
+        }
     }
 
     /**
