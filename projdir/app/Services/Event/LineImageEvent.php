@@ -31,7 +31,7 @@ class LineImageEvent {
             $textMessage = new TextMessageBuilder('送られた画像はこちらです');
             $messages = new MultiMessageBuilder([$textMessage, $imageMessage]);
             $this->service->replyMessage($bot, $event->getReplyToken(), $messages);
-        } else {
+        } elseif ($contentProvider->isLine()) {
             $messageId = $event->getMessageId();
             $response = $bot->getMessageContent($messageId);
             if ($response->isSucceeded()) {
