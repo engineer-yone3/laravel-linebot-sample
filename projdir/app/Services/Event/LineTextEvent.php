@@ -9,6 +9,7 @@ use LINE\LINEBot\MessageBuilder\TemplateBuilder\ButtonTemplateBuilder;
 use LINE\LINEBot\MessageBuilder\TemplateMessageBuilder;
 use LINE\LINEBot\MessageBuilder\TextMessageBuilder;
 use LINE\LINEBot\QuickReplyBuilder\ButtonBuilder\QuickReplyButtonBuilder;
+use LINE\LINEBot\QuickReplyBuilder\QuickReplyMessageBuilder;
 use LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder;
 
 class LineTextEvent {
