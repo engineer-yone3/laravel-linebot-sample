@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\Line;
 use App\Http\Controllers\Controller;
 use App\Services\Event\LineFollowEvent;
 use App\Services\Event\LineImageEvent;
+use App\Services\Event\LinePostbackEvent;
 use App\Services\Event\LineTextEvent;
 use App\Services\Event\LineUnfollowEvent;
 use Illuminate\Http\JsonResponse;
@@ -24,7 +25,8 @@ class LineBotController extends Controller
         private LineFollowEvent $followEvent,
         private LineUnfollowEvent $unFollowEvent,
         private LineTextEvent $textEvent,
-        private LineImageEvent $imageEvent
+        private LineImageEvent $imageEvent,
+        private LinePostbackEvent $postbackEvent
     )
     {
     }
@@ -48,7 +50,7 @@ class LineBotController extends Controller
                 } elseif ($event instanceof ImageMessage) {
                     $this->imageEvent->execute($event, $bot);
                 } elseif ($event instanceof PostbackEvent) {
-    
+                    $this->postbackEvent->execute($event, $bot);
                 } elseif ($event instanceof UnfollowEvent) {
                     $this->unFollowEvent->execute($event);
                 }
