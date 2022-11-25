@@ -1,7 +1,7 @@
 FROM php:8.1-apache
 
 RUN apt-get update && apt-get install -y git zip unzip libzip-dev vim libpng-dev libpq-dev libfreetype6-dev libjpeg-dev libonig-dev curl \
-    && docker-php-ext-install pdo pdo_mysql mysqli zip
+    && docker-php-ext-install pdo pdo_mysql mysqli zip sockets
 
 COPY ./sites-available/000-default.conf /etc/apache2/sites-available/000-default.conf
 COPY ./php.ini /usr/local/etc/php/conf.d/php.ini
