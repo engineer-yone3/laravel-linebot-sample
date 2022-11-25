@@ -38,6 +38,7 @@ class LineBotController extends Controller
         if (empty($signature)) {
             return abort(400, 'Bad Request');
         }
+
         try {
             $events = $bot->parseEventRequest($request->getContent(), $signature);
 
