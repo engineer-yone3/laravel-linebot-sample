@@ -29,8 +29,10 @@ class LineImageEvent {
                 $contentProvider->getPreviewImageUrl()
             );
             $textMessage = new TextMessageBuilder('送られた画像はこちらです');
-            $messages = new MultiMessageBuilder([$textMessage, $imageMessage]);
-            $this->service->replyMessage($bot, $event->getReplyToken(), $messages);
+            $builder = new MultiMessageBuilder();
+            $builder->add($textMessage);
+            $builder->add($imageMessage);
+            $this->service->replyMessage($bot, $event->getReplyToken(), $builder);
         } elseif ($contentProvider->isLine()) {
             $messageId = $event->getMessageId();
             $response = $bot->getMessageContent($messageId);
@@ -41,8 +43,10 @@ class LineImageEvent {
 
                 $imageMessage = new ImageMessageBuilder($url,$url);
                 $textMessage = new TextMessageBuilder('送られた画像はこちらです');
-                $messages = new MultiMessageBuilder([$textMessage, $imageMessage]);
-                $this->service->replyMessage($bot, $event->getReplyToken(), $messages);
+                $builder = new MultiMessageBuilder();
+                $builder->add($textMessage);
+                $builder->add($imageMessage);
+                $this->service->replyMessage($bot, $event->getReplyToken(), $builder);
             }
         }
     }
