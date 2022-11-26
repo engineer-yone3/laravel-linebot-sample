@@ -23,7 +23,10 @@ class LineImageEvent {
     {
         $contentProvider = $event->getContentProvider();
 
+        logger()->debug('[event data]');
+        logger()->debug(print_r($event, true));
         if ($contentProvider->isExternal()) {
+            logger()->debug('外部ファイル');
             $imageMessage = new ImageMessageBuilder(
                 $contentProvider->getOriginalContentUrl(),
                 $contentProvider->getPreviewImageUrl()
@@ -34,6 +37,7 @@ class LineImageEvent {
             $builder->add($imageMessage);
             $this->service->replyMessage($bot, $event->getReplyToken(), $builder);
         } elseif ($contentProvider->isLine()) {
+            logger()->debug('Lineファイル');
             $messageId = $event->getMessageId();
             $response = $bot->getMessageContent($messageId);
             if ($response->isSucceeded()) {
