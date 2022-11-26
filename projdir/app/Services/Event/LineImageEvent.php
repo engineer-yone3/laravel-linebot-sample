@@ -41,7 +41,9 @@ class LineImageEvent {
             } elseif ($contentProvider->isLine()) {
                 logger()->debug('Lineファイル');
                 $messageId = $event->getMessageId();
+                logger()->debug("MESSAGE-ID: {$messageId}");
                 $response = $bot->getMessageContent($messageId);
+                logger()->debug(print_r($response, true));
                 if ($response->isSucceeded()) {
                     logger()->debug('content取得成功');
                     $fileName = Str::random(255);
