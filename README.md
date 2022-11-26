@@ -12,6 +12,7 @@ line-bot-sdk:7.6.1を使用。
 
 ## 動作確認
 以下のQRコードから友達登録が可能です。
+
 ![FriendJoin](projdir/public/friend-join.png)
 
 ## その他
