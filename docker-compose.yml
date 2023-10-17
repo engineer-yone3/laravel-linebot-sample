@@ -3,7 +3,6 @@ version: "3"
 volumes:
   db_volume:
 
-
 services:
   web:
     build: ./docker/php
