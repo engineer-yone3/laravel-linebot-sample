@@ -3,21 +3,23 @@ volumes:
 
 services:
   web:
-    build: ./docker/php
+    build: .docker/php
     volumes:
       - ./projdir:/var/www/html
     environment:
       VIRTUAL_HOST: "api.local.bot3.com"
       TZ: Asia/Tokyo
+      PHP_INI_SCAN_DIR: "/usr/local/etc/php/conf.d"
     ports:
-      - 8888:80
+      - '8080:80'
   
   db:
-    build: ./docker/mysql
+    image: mysql:8.0
     volumes:
       - db_volume:/var/lib/mysql
+      - .docker/mysql/my.cnf:/etc/mysql/conf.d/custom.cnf
     ports:
-      - 3331:3306
+      - '3306:3306'
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: bot3_local_db
